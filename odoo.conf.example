@@ -1,0 +1,24 @@
+[options]
+; Copy this file to odoo.conf on a new machine and replace the placeholder values.
+; Do not commit your real odoo.conf because it contains local paths and passwords.
+
+; Master password used by Odoo's database manager.
+admin_passwd = CHANGE_ME_MASTER_PASSWORD
+
+; Add the standard Odoo addons folder and this repository's Project folder.
+; Example for a Windows Odoo installer:
+addons_path = C:\Program Files\Odoo 17.0.20251003\server\addons,C:\Users\YOUR_USER\Documents\odoo-course-project-bookstore\Project
+
+; PostgreSQL connection for the new machine.
+db_host = localhost
+db_port = 5432
+db_user = CHANGE_ME_DB_USER
+db_password = CHANGE_ME_DB_PASSWORD
+db_name = False
+
+; Common local Odoo settings.
+http_port = 8069
+list_db = True
+log_level = info
+workers = None
+server_wide_modules = base,web
