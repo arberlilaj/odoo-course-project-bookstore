@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ========================================== -->
+    <!-- INVOICE PDF REPORT -->
+    <!-- ========================================== -->
+
+    <!-- Report Action for Invoice -->
+    <record id="action_report_invoice" model="ir.actions.report">
+        <field name="name">Invoice Report</field>
+        <field name="model">bookstore.invoice</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">bookstore.report_invoice_template</field>
+        <field name="report_file">bookstore.report_invoice_template</field>
+        <field name="print_report_name">'Invoice_%s' % (object.invoice_code)</field>
+        <field name="binding_model_id" ref="model_bookstore_invoice"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <!-- Invoice Report Template -->
+    <template id="report_invoice_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <!-- Invoice Header -->
+                        <div class="row">
+                            <div class="col-6">
+                                <h2>
+                                    <t t-if="doc.invoice_type == 'out'">
+                                        <span class="text-primary">SALES INVOICE</span>
+                                    </t>
+                                    <t t-else="">
+                                        <span class="text-success">PURCHASE INVOICE</span>
+                                    </t>
+                                </h2>
+                            </div>
+                            <div class="col-6 text-right">
+                                <h3><t t-esc="doc.invoice_code"/></h3>
+                            </div>
+                        </div>
+
+                        <!-- Invoice Info -->
+                        <div class="row mt-4">
+                            <div class="col-6">
+                                <table class="table table-borderless">
+                                    <tr>
+                                        <td><strong>Date:</strong></td>
+                                        <td><t t-esc="doc.invoice_date"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Status:</strong></td>
+                                        <td>
+                                            <t t-if="doc.state == 'draft'"><span class="badge badge-secondary">Draft</span></t>
+                                            <t t-elif="doc.state == 'done'"><span class="badge badge-primary">Confirmed</span></t>
+                                            <t t-else=""><span class="badge badge-success">Paid</span></t>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="col-6">
+                                <table class="table table-borderless">
+                                    <t t-if="doc.client_id">
+                                        <tr>
+                                            <td><strong>Client:</strong></td>
+                                            <td><t t-esc="doc.client_id.name"/> <t t-esc="doc.client_id.surname"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Email:</strong></td>
+                                            <td><t t-esc="doc.client_id.email"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Phone:</strong></td>
+                                            <td><t t-esc="doc.client_id.phone"/></td>
+                                        </tr>
+                                    </t>
+                                    <t t-if="doc.employee_id">
+                                        <tr>
+                                            <td><strong>Employee:</strong></td>
+                                            <td><t t-esc="doc.employee_id.name"/></td>
+                                        </tr>
+                                    </t>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Invoice Lines -->
+                        <h4 class="mt-4">Invoice Lines</h4>
+                        <table class="table table-striped table-bordered">
+                            <thead>
+                                <tr class="bg-primary text-white">
+                                    <th>#</th>
+                                    <th>Product</th>
+                                    <th class="text-right">Price</th>
+                                    <th class="text-right">Quantity</th>
+                                    <th class="text-right">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="doc.invoice_line_ids" t-as="line">
+                                    <tr>
+                                        <td><t t-esc="line_index + 1"/></td>
+                                        <td><t t-esc="line.product_id.product"/></td>
+                                        <td class="text-right"><t t-esc="'%.2f' % line.price"/> Lek</td>
+                                        <td class="text-right"><t t-esc="'%.2f' % line.quantity"/></td>
+                                        <td class="text-right"><t t-esc="'%.2f' % line.total"/> Lek</td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                            <tfoot>
+                                <tr class="bg-light">
+                                    <td colspan="4" class="text-right"><strong>TOTAL:</strong></td>
+                                    <td class="text-right"><strong><t t-esc="'%.2f' % doc.total"/> Lek</strong></td>
+                                </tr>
+                            </tfoot>
+                        </table>
+
+                        <!-- Membership Info (if applicable) -->
+                        <t t-if="doc.client_id and doc.client_id.is_member">
+                            <div class="alert alert-info mt-4">
+                                <strong>Membership Status:</strong> Active Member
+                                <br/>
+                                <strong>Points Balance:</strong> <t t-esc="'%.2f' % doc.client_id.point"/> points
+                            </div>
+                        </t>
+
+                        <!-- Footer Note -->
+                        <div class="row mt-5">
+                            <div class="col-12 text-center">
+                                <p class="text-muted">Thank you for your business!</p>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

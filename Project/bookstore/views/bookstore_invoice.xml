@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Form View -->
+    <record id="bookstore_invoice_view_form" model="ir.ui.view">
+        <field name="name">bookstore.invoice.view.form</field>
+        <field name="model">bookstore.invoice</field>
+        <field name="arch" type="xml">
+            <form string="Bookstore_invoice">
+                <header>
+                    <button name="confirm_invoice" type="object" string="Confirm" class="btn-primary"
+                            invisible="state!='draft'"/>
+                    <button name="pay_invoice" type="object" string="Pay" class="btn-success"
+                            invisible="state!='done'"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="invoice_code" readonly="1"/>
+                            <field name="invoice_date" readonly="state!='draft'"/>
+                            <field name="invoice_type" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="client_id" readonly="state!='draft'"/>
+                            <field name="employee_id" readonly="state!='draft'"/>
+                            <field name="total"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Invoice lines">
+                            <field name="invoice_line_ids" readonly="state!='draft'">
+                                <tree editable="bottom">
+                                    <field name="product_id"/>
+                                    <field name="quantity"/>
+                                    <field name="price"/>
+                                    <field name="total"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- List View -->
+    <record id="bookstore_invoice_view_list" model="ir.ui.view">
+        <field name="name">bookstore.invoice.view.list</field>
+        <field name="model">bookstore.invoice</field>
+        <field name="arch" type="xml">
+            <tree string="Bookstore_invoice">
+                 <field name="invoice_code"/>
+                <field name="invoice_date"/>
+                <field name="total"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="bookstore_invoice_action_in" model="ir.actions.act_window">
+        <field name="name">Bookstore invoice buy</field>
+        <field name="res_model">bookstore.invoice</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('invoice_type', '=', 'in')]</field>
+        <field name="context">{'default_invoice_type': 'in'}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first bookstore invoice!
+            </p>
+        </field>
+    </record>
+
+    <record id="bookstore_invoice_action_out" model="ir.actions.act_window">
+        <field name="name">Bookstore invoice sell</field>
+        <field name="res_model">bookstore.invoice</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('invoice_type', '=', 'out')]</field>
+        <field name="context">{'default_invoice_type': 'out'}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first bookstore invoice!
+            </p>
+        </field>
+    </record>
+
+</odoo>

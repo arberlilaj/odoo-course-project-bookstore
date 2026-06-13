@@ -1,0 +1,14 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_bookstore_client,access.bookstore.client,model_bookstore_client,,1,1,1,1
+access_bookstore_employee,access.bookstore.employee,model_bookstore_employee,,1,1,1,1
+access_bookstore_product,access.bookstore.product,model_bookstore_product,,1,1,1,1
+access_bookstore_category,access.bookstore.category,model_bookstore_category,,1,1,1,1
+access_bookstore_invoice,access.bookstore.invoice,model_bookstore_invoice,,1,1,1,1
+access_bookstore_invoice_line,access.bookstore.invoice.line,model_bookstore_invoice_line,,1,1,1,1
+access_bookstore_membership_tier,access.bookstore.membership.tier,model_bookstore_membership_tier,,1,1,1,1
+access_bookstore_points_log,access.bookstore.points.log,model_bookstore_points_log,,1,1,1,1
+access_bookstore_book,access.bookstore.book,model_bookstore_book,,1,1,1,1
+access_bookstore_book_copy,access.bookstore.book.copy,model_bookstore_book_copy,,1,1,1,1
+access_bookstore_loan,access.bookstore.loan,model_bookstore_loan,,1,1,1,1
+access_bookstore_product_material,access.bookstore.product.material,model_bookstore_product_material,,1,1,1,1
+access_bookstore_sales_statistics_wizard,access.bookstore.sales.statistics.wizard,model_bookstore_sales_statistics_wizard,,1,1,1,1

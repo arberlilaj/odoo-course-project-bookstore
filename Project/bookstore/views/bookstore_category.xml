@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="bookstore_category_view_list" model="ir.ui.view">
+        <field name="name">bookstore.category.view.list</field>
+        <field name="model">bookstore.category</field>
+        <field name="arch" type="xml">
+            <tree string="Bookstore_category" editable="top">
+                <field name="category"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="bookstore_category_action" model="ir.actions.act_window">
+        <field name="name">Bookstore category</field>
+        <field name="res_model">bookstore.category</field>
+        <field name="view_mode">list</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first bookstore category!
+            </p>
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Form View -->
+    <record id="bookstore_product_view_form" model="ir.ui.view">
+        <field name="name">bookstore.product.view.form</field>
+        <field name="model">bookstore.product</field>
+        <field name="arch" type="xml">
+            <form string="Bookstore_product">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="product"/>
+                            <field name="type" widget="radio"/>
+                            <field name="category_ids" widget="many2many_tags"/>
+                        </group>
+                        <group>
+                            <field name="quantity" readonly="1" invisible="type == 'service'"/>
+                            <field name="purchase_price" invisible="type == 'service'"/>
+                            <field name="sell_price"/>
+                        </group>
+                    </group>
+                    <group string="Membership Settings">
+                    <field name="is_membership"/>
+                    <!-- Only show days if 'Is Membership' is checked -->
+                    <field name="membership_days" invisible="not is_membership"/>
+                </group>
+                <notebook invisible="type != 'service'">
+                        <page string="Ingredients / Material">
+                            <field name="material_ids">
+                                <tree editable="bottom">
+                                    <field name="ingredient_id"/>
+                                    <field name="quantity"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- List View -->
+    <record id="bookstore_product_view_list" model="ir.ui.view">
+        <field name="name">bookstore.product.view.list</field>
+        <field name="model">bookstore.product</field>
+        <field name="arch" type="xml">
+            <tree string="Bookstore_product">
+                <field name="product"/>
+                <field name="quantity"/>
+                <field name="sell_price"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="bookstore_product_action" model="ir.actions.act_window">
+        <field name="name">Bookstore product</field>
+        <field name="res_model">bookstore.product</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first bookstore product!
+            </p>
+        </field>
+    </record>
+
+
+</odoo>

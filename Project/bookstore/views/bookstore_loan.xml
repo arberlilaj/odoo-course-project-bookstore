@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- LOAN FORM -->
+    <record id="view_book_loan_form" model="ir.ui.view">
+    <field name="name">bookstore.loan.form</field>
+    <field name="model">bookstore.loan</field>
+    <field name="arch" type="xml">
+        <form>
+            <header>
+                <button name="action_confirm_loan" string="Confirm Loan" type="object" class="btn-primary" invisible="state != 'draft'"/>
+
+                <!-- NEW: Create Invoice Button -->
+                <button name="action_create_invoice" string="Create Invoice" type="object" class="btn-secondary"
+                        invisible="state != 'active' or invoice_id != False"/>
+
+                <button name="action_return_book" string="Return Book" type="object" class="btn-warning" invisible="state != 'active'"/>
+
+                <field name="state" widget="statusbar"/>
+            </header>
+            <sheet>
+                <!-- Smart Button to see Invoice -->
+                <div class="oe_button_box" name="button_box">
+                    <button name="action_view_invoice" type="object" class="oe_stat_button" icon="fa-pencil-square-o" invisible="invoice_id == False">
+                        <field name="invoice_id" widget="statinfo" string="Invoice"/>
+                    </button>
+                </div>
+
+                <group>
+                    <group>
+                        <field name="client_id"/>
+                        <field name="employee_id"/>
+                         <field name="book_id" options="{'no_create': True, 'no_open': True}"/>
+                        <field name="physical_copy_id" domain="[('book_id', '=', book_id), ('status', '=', 'available')]"
+                                options="{'no_create': True}"/>
+                    </group>
+                    <group>
+                        <field name="date_borrowed"/>
+                        <field name="duration_days"/>
+                        <field name="due_date"/>
+                        <field name="total_cost" widget="monetary"/>
+                    </group>
+                </group>
+            </sheet>
+        </form>
+    </field>
+</record>
+
+    <record id="book_loan_view_tree" model="ir.ui.view">
+        <field name="name">bookstore.loan.tree</field>
+        <field name="model">bookstore.loan</field>
+        <field name="arch" type="xml">
+            <tree decoration-danger="state == 'active' and due_date &lt; current_date" decoration-muted="state == 'returned'">
+                <field name="client_id"/>
+                <field name="physical_copy_id"/>
+                <field name="due_date"/>
+                <field name="state" widget="badge" decoration-success="state == 'active'" decoration-info="state == 'draft'"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- === PHYSICAL COPY VIEWS (Inventory List) === -->
+
+    <record id="bookstore_physical_copy_tree" model="ir.ui.view">
+        <field name="name">bookstore.physical.copy.tree</field>
+        <field name="model">bookstore.physical.copy</field>
+        <field name="arch" type="xml">
+            <tree string="Physical Inventory" create="false">
+                <field name="barcode"/>
+                <field name="book_id"/>
+                <field name="status" widget="badge" decoration-success="status == 'available'" decoration-warning="status == 'on_loan'"/>
+                <field name="current_borrower_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- === ACTIONS === -->
+
+    <record id="book_loans_action" model="ir.actions.act_window">
+        <field name="name">Active Loans</field>
+        <field name="res_model">bookstore.loan</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="book_copies_action" model="ir.actions.act_window">
+        <field name="name">All Physical Copies</field>
+        <field name="res_model">bookstore.physical.copy</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+</odoo>

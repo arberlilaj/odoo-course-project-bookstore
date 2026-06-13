@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- 1. TREE VIEW (The List) -->
+    <!-- Requirement: "Show only the book title" (Added Author for context) -->
+    <record id="bookstore_book_view_tree" model="ir.ui.view">
+        <field name="name">bookstore.book.tree</field>
+        <field name="model">bookstore.book</field>
+        <field name="arch" type="xml">
+            <tree string="Book Catalog">
+                <field name="title"/>
+                <field name="author"/>
+                <field name="available_copies_count" string="Available"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- 2. FORM VIEW (The Details) -->
+    <!-- Requirement: "Shows the information that it holds" -->
+    <record id="bookstore_book_view_form" model="ir.ui.view">
+        <field name="name">bookstore.book.form</field>
+        <field name="model">bookstore.book</field>
+        <field name="arch" type="xml">
+            <form string="Book Details">
+                <sheet>
+                    <div class="oe_title">
+                        <label for="title" class="oe_edit_only"/>
+                        <h1><field name="title" placeholder="e.g. The Great Gatsby"/></h1>
+                        <h3><field name="author" placeholder="Author Name"/></h3>
+                    </div>
+
+                    <group>
+                        <group>
+                            <field name="isbn"/>
+                            <field name="genre"/>
+                            <field name="publisher"/>
+                            <field name="year_published"/>
+                        </group>
+                        <group>
+                            <field name="retail_price"/>
+                            <field name="rental_price_per_day"/>
+                            <field name="shelf_location"/>
+                            <field name="total_copies_count" readonly="1"/>
+                            <field name="available_copies_count" readonly="1"/>
+                        </group>
+                    </group>
+
+                    <!-- COPIES TAB -->
+                    <notebook>
+                        <page string="Inventory / Copies">
+                            <field name="copy_ids">
+                                <tree editable="bottom" decoration-danger="status=='lost'" decoration-success="status=='available'">
+                                    <!-- Barcode is auto-generated, so readonly -->
+                                    <field name="barcode" readonly="1"/>
+                                    <field name="status"/>
+                                    <field name="current_borrower_id"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- 3. ACTION (The Link) -->
+    <record id="bookstore_book_action" model="ir.actions.act_window">
+        <field name="name">Book Catalog</field>
+        <field name="res_model">bookstore.book</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+</odoo>

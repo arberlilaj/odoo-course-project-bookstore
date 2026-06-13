@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Form View -->
+    <record id="bookstore_client_view_form" model="ir.ui.view">
+        <field name="name">bookstore.client.view.form</field>
+        <field name="model">bookstore.client</field>
+        <field name="arch" type="xml">
+            <form string="Bookstore_client">
+                <sheet>
+                    <widget name="web_ribbon" title="Active Member" bg_color="bg-success" invisible="not is_member"/>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="surname"/>
+                            <field name="client_code"/>
+                        </group>
+                        <group>
+                            <field name="email"/>
+                            <field name="phone"/>
+                        </group>
+                    </group>
+                    <group string="Membership Status">
+                    <field name="is_member" readonly="1"/>
+                </group>
+
+                    <notebook>
+                        <page string="Points History">
+                            <field name="points_log_ids">
+                                <tree editable="bottom" create="0" delete="0">
+                                    <field name="date"/>
+
+                                    <field name="points_change"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <!-- List View -->
+    <record id="bookstore_client_view_list" model="ir.ui.view">
+        <field name="name">bookstore.client.view.list</field>
+        <field name="model">bookstore.client</field>
+        <field name="arch" type="xml">
+            <tree string="Bookstore_client">
+                <field name="name"/>
+                <field name="surname"/>
+                <field name="email"/>
+                <field name="point"/>
+                <!-- New part  -->
+                <field name="is_member" widget="boolean_toggle" readonly="1"/>
+                <field name="membership_expiry" optional="hide"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="bookstore_client_action" model="ir.actions.act_window">
+        <field name="name">Bookstore client</field>
+        <field name="res_model">bookstore.client</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first bookstore client!
+            </p>
+        </field>
+    </record>
+
+</odoo>

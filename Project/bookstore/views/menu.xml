@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Menu -->
+    <menuitem id="bookstore_menu_root" name="Bookstore" sequence="10"/>
+
+    <menuitem id="client_menu"
+              name="Client"
+              action="bookstore_client_action"
+              parent="bookstore_menu_root"
+              sequence="30"
+    />
+
+    <menuitem id="bookstore_employee_menu"
+              name="Employee"
+              action="bookstore_employee_action"
+              parent="bookstore_menu_root"
+              sequence="40"/>
+
+    <menuitem id="bookstore_product_menu_root"
+              name="Product"
+              parent="bookstore_menu_root"
+              sequence="10"/>
+
+    <menuitem id="bookstore_invoice_menu"
+              name="Invoice"
+              parent="bookstore_menu_root"
+              sequence="20"/>
+
+    <menuitem id="bookstore_invoice_menu_in"
+              name="Purchase"
+              action="bookstore_invoice_action_in"
+              parent="bookstore_invoice_menu"
+              sequence="10"/>
+
+    <menuitem id="bookstore_invoice_menu_out"
+              name="Sell"
+              action="bookstore_invoice_action_out"
+              parent="bookstore_invoice_menu"
+              sequence="20"/>
+
+
+
+    <menuitem id="bookstore_product_menu"
+              name="Product"
+              action="bookstore_product_action"
+              parent="bookstore_product_menu_root"
+              sequence="10"/>
+
+    <!-- Category -->
+    <menuitem id="bookstore_category_menu"
+              name="Category"
+              action="bookstore_category_action"
+              parent="bookstore_product_menu_root"
+              sequence="20"/>
+
+
+
+
+    <!-- Membership view -->
+    <menuitem id="membership_menu_root"
+              name="Membership"
+              parent="bookstore_menu_root"
+              sequence="50"/>
+
+    <menuitem id="membership_sub_menu"
+              name="Subscriptions"
+              parent="membership_menu_root"
+              action="membership_subscription_action"
+              sequence="10"/>
+
+    <menuitem id="membership_config_menu"
+              name="Tiers Config"
+              parent="membership_menu_root"
+              action="membership_tier_action"
+              sequence="20"/>
+
+<!-- LIBRARY PARENT MENU -->
+    <menuitem id="menu_library_parent"
+              name="Library/Loans"
+              parent="bookstore_menu_root"
+              sequence="60"/>
+
+    <!-- 1. CATALOG (Create Titles Here) -->
+    <menuitem id="menu_book_catalog"
+              name="Book Catalog"
+              parent="menu_library_parent"
+              action="bookstore_book_action"
+              sequence="10"/>
+
+
+    <!-- 2. LOANS (Rentals Here) -->
+    <menuitem id="menu_book_loans"
+              name="Loans"
+              parent="menu_library_parent"
+              action="book_loans_action"
+              sequence="30"/>
+</odoo>

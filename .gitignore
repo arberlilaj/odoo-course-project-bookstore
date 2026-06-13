@@ -1,0 +1,35 @@
+# Python cache/build artifacts
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Odoo/runtime local files
+*.log
+*.pid
+*.pot
+*.pyc
+sessions/
+filestore/
+
+# Local configuration and secrets
+.env
+*.env
+odoo.conf
+*.conf
+
+# Backups and exports
+*.bak
+*.backup
+*.dump
+*.sql
+*.sqlite
+*.db
+*.zip
+*.rar
+*.7z
+
+# Editor/OS files
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
